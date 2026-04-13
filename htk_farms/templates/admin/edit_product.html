@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <h2 class="mb-4 fw-bold">✏️ Edit Product</h2>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.non_field_errors }}
+        
+        {% for field in form %}
+          <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger">{{ field.errors }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <!-- Override category select with custom populated -->
+        <div class="mb-3">
+          <label>Category</label>
+          <select name="category" class="form-select">
+            {% for c in categories %}
+              <option value="{{ c.id }}" {% if form.category.value == c.id or product.category.id == c.id %}selected{% endif %}>
+                {{ c.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <!-- Current images preview -->
+        {% if product.card_image %}
+        <div class="mb-3">
+          <label>Current Card Image:</label><br>
+          <img src="{{ product.card_image.url }}" style="max-height:100px;max-width:100px;">
+        </div>
+        {% endif %}
+        
+        {% if product.detail_image %}
+        <div class="mb-3">
+          <label>Current Detail Image:</label><br>
+          <img src="{{ product.detail_image.url }}" style="max-height:100px;max-width:100px;">
+        </div>
+        {% endif %}
+
+        <button class="btn btn-primary w-100">
+          Update Product
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
