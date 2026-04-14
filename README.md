@@ -45,3 +45,18 @@ Prometheus → Graph
 Try:
 
 up
+
+
+# Ssend request to see the metrics real time
+1. Simple curl loop
+   Run this:
+   for i in {1..100}; do curl http://localhost:8000; done
+2. Use Apache Benchmark:
+   ab -n 1000 -c 20 http://localhost:8000/
+   
+   This creates:
+
+   1000 requests
+   20 concurrent users
+
+👉 This is best to see metrics spike in Grafana
